@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <link rel="stylesheet" href="pull.css"/>
+    <script src="pull.js"></script>
+
+</head>
+<body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul, li {
+        list-style: none;
+    }
+
+    .pull-content {
+        padding: 20px;
+        line-height: 32px;
+    }
+</style>
+<div class="pull-box">
+    <div class="pull-refresh"></div>
+    <div class="pull-content">
+        <ul>
+            <div id="distance"></div>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+            <li>内容文本</li>
+        </ul>
+
+    </div>
+    <div class="pull-loadmore"></div>
+</div>
+</body>
+</html>
+<script>
+
+    pullbox.onReFresh = function (pull) {
+        setTimeout(pull.finish, 2500);//ajax
+    }
+
+    pullbox.onPull = function (distance, maxDistance) {
+        document.getElementById("distance").innerHTML = distance;
+    }
+</script>

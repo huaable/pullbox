@@ -1,0 +1,55 @@
+
+html {
+	-ms-touch-action: none;
+
+}
+
+.pull-box {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #eee;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.pull-refresh {
+	height: 60px;
+	margin-top: -60px;
+	background-image: url("loading.gif");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #eee;
+}
+
+/*.state-end {*/
+	/*-webkit-transition: all .5s ease-in-out;*/
+	/*-moz-transition: all .5s ease-in-out;*/
+	/*-o-transition: all .5s ease-in-out;*/
+	/*transition: all .5s ease-in-out;*/
+/*}*/
+
+.pull-content {
+	background-color: #fff;
+	overflow: scroll;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
