@@ -1,6 +1,10 @@
 ;
 (function () {
 	window.pullbox = {
+		'option': {
+			'reFreshMaxDistance': 60,
+			'loadMoreMaxDistance': 100
+		},
 		'onPull': null,
 		'onReFresh': null,//添加下拉刷新功能 仅需定义该函数
 		'onLoadMore': null//添加加载更多功能 仅需定义该函数
@@ -16,7 +20,7 @@
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
 		var box = document.querySelector(".pull-box");//必须有
-		var distance = 0, pulldownMaxDistance = 60;
+		var distance = 0, reFreshMaxDistance = pullbox.option.reFreshMaxDistance;
 		var state = 'ready';// null(pc端)| ready | refresh
 		if (!hasTouch) {
 			state = 'null'//pc比触屏移动端多一个状态,需点击屏幕后才能转成ready成为可拖拽状态
@@ -56,18 +60,18 @@
 		function onMove() {
 			distance = posMove.y - posStart.y;
 			if (state == 'ready' && getScrollTop() == 0) {
-				window.pullbox.onPull && window.pullbox.onPull(distance, pulldownMaxDistance);
-				if (distance < pulldownMaxDistance) {
+				window.pullbox.onPull && window.pullbox.onPull(distance, reFreshMaxDistance);
+				if (distance < reFreshMaxDistance) {
 					setDistance(distance);
 				} else {
-					setDistance(pulldownMaxDistance);//达到 refresh 触发条件
+					setDistance(reFreshMaxDistance);//达到 refresh 触发条件
 				}
 			}
 		}
 
 		function onEnd() {
 			if (state == 'ready') {
-				if (distance >= pulldownMaxDistance && getScrollTop() == 0) {
+				if (distance >= reFreshMaxDistance && getScrollTop() == 0) {
 					state = 'refresh';
 					window.pullbox.onReFresh({
 						'finish': onReFreshFinish
@@ -100,10 +104,9 @@
 		bindEvent(EVENT.END, posEnd, onEnd);
 
 		var loadmorelock = false;
-		var loadDistance = 100;
 
 		function loadMore() {
-			if (pullbox.onLoadMore && loadmorelock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - loadDistance)) {
+			if (pullbox.onLoadMore && loadmorelock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - pullbox.option.loadMoreMaxDistance)) {
 				loadmorelock = true;
 				pullbox.onLoadMore({
 					'finish': function () {
