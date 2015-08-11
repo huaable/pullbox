@@ -1,10 +1,6 @@
-.pull-box {
-	/*与 pullbox.option.reFreshDistance 对应*/
-	margin-top: -60px;
-}
-
 .pull-refresh,
 .pull-loadmore {
+	/* pullbox.option.reFreshDistance＝60; */
 	height: 60px;
 	background-image: url("loading.gif");
 	background-position: center;

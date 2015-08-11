@@ -29,7 +29,7 @@
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
 		var box = document.querySelector(".pull-box");//必须有
-		//box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
+		box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
 		var distance = 0, reFreshDistance = pullbox.option.reFreshDistance;
 		var state = 'ready';// null(pc端)| ready | refresh
 		if (!hasTouch) {
