@@ -68,8 +68,8 @@ pullbox.option
 ```
 window.pullbox = {
 		'option': {
-			'reFreshMaxDistance': 60,
-			'loadMoreMaxDistance': 100
+			'reFreshDistance': 60,
+			'loadMoreDistance': 100
 		},
 		'onPull': null,
 		'onReFresh': null,//添加下拉刷新功能 仅需定义该函数
