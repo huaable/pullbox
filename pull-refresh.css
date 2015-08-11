@@ -1,0 +1,26 @@
+/*自定义样式*/
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #eee;
+}
+
+.pull-content {
+	background-color: #fff;
+}
+
+.pull-refresh {
+	/*设置为下拉刷新最大距离 pullbox.refreshMaxDistance*/
+	margin-top: -60px;
+}
+
+.pull-refresh,
+.pull-loadmore {
+	height: 60px;
+	background-image: url("loading.gif");
+	background-position: center;
+	background-repeat: no-repeat;
+}

@@ -1,5 +1,14 @@
 ;
 (function () {
+	/**
+	 * @file   下拉刷新+加载更多
+	 *
+	 * @author xiaohua
+	 * @email coolr@foxmail.com
+	 *
+	 * @LICENSE
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 */
 	window.pullbox = {
 		'option': {
 			'reFreshMaxDistance': 60,
@@ -31,6 +40,7 @@
 		];
 		var EVENT = eventMap[hasTouch];
 		var posStart = { 'y': 0, 't': 0}, posMove = { 'y': 0, 't': 0}, posEnd = {'y': 0, 't': 0};
+		var loadMoreLock = false;
 
 		function getScrollTop() {
 			return document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset || window.scrollY || 0;
@@ -103,14 +113,12 @@
 		bindEvent(EVENT.MOVE, posMove, onMove);
 		bindEvent(EVENT.END, posEnd, onEnd);
 
-		var loadmorelock = false;
-
 		function loadMore() {
-			if (pullbox.onLoadMore && loadmorelock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - pullbox.option.loadMoreMaxDistance)) {
-				loadmorelock = true;
+			if (pullbox.onLoadMore && loadMoreLock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - pullbox.option.loadMoreMaxDistance)) {
+				loadMoreLock = true;
 				pullbox.onLoadMore({
 					'finish': function () {
-						loadmorelock = false;
+						loadMoreLock = false;
 						setTimeout(loadMore, 100);//内容过少自动加载更多
 					}
 				});

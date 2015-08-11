@@ -5,14 +5,6 @@
     <title></title>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
-    <meta name="HandheldFriendly" content="true">
-    <!-- 微软的老式浏览器 -->
-    <meta name="MobileOptimized" content="320">
-    <!-- uc强制竖屏 -->
-    <meta name="screen-orientation" content="portrait">
-    <!-- QQ强制竖屏 -->
-    <meta name="x5-orientation" content="portrait">
     <!-- UC强制全屏 -->
     <meta name="full-screen" content="yes">
     <!-- QQ强制全屏 -->
@@ -21,54 +13,44 @@
     <meta name="browsermode" content="application">
     <!-- QQ应用模式 -->
     <meta name="x5-page-mode" content="app">
-    <!-- windows phone 点击无高光 -->
-    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="stylesheet" href="pull-refresh.css"/>
+    <script src="pull-refresh.min.js"></script>
 
-    <script src="pull-refresh.js"></script>
+    <style>
 
+        #top-bar {
+            background-color: #ff4145;
+            text-align: center;
+            font-size: 16px;
+            height: 45px;
+            line-height: 45px;
+            position: relative;
+            z-index: 1;
+            margin: 0;
+        }
+
+        .pull-content {
+            padding: 20px;
+            line-height: 32px;
+        }
+
+        ul, li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+    </style>
 </head>
 <body>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
+<h1 id="top-bar"></h1>
 
-    body {
-        background-color: #EEE;
-    }
-
-    ul, li {
-        list-style: none;
-    }
-
-    .pull-refresh {
-        /*设置为最大下拉距离*/
-        margin-top: -60px;
-    }
-
-    .pull-refresh,
-    .pull-loadmore {
-        height: 60px;
-        background-image: url("loading.gif");
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    .pull-content {
-        background-color: #fff;
-        padding: 20px;
-        line-height: 32px;
-    }
-</style>
-<div class="pull-box"> <!-- .pull-box 类名必要-->
+<div class="pull-box"> <!-- .pull-box 类名容器必要-->
 
     <!--以下内容均为非必要,可自定义-->
     <div class="pull-refresh"></div>
     <div class="pull-content">
         <ul id="content">
-            <li>内容文本</li>
-            <li>内容文本</li>
             <li>内容文本</li>
             <li>内容文本</li>
             <li>内容文本</li>
