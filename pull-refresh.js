@@ -29,6 +29,7 @@
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
 		var box = document.querySelector(".pull-box");//必须有
+		//box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
 		var distance = 0, reFreshDistance = pullbox.option.reFreshDistance;
 		var state = 'ready';// null(pc端)| ready | refresh
 		if (!hasTouch) {
@@ -41,6 +42,7 @@
 		var EVENT = eventMap[hasTouch];
 		var posStart = { 'y': 0, 't': 0}, posMove = { 'y': 0, 't': 0}, posEnd = {'y': 0, 't': 0};
 		var loadMoreLock = false;
+
 
 		function getScrollTop() {
 			return document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset || window.scrollY || 0;
@@ -71,9 +73,9 @@
 			distance = posMove.y - posStart.y;
 			if (state == 'ready' && getScrollTop() == 0) {
 				window.pullbox.onPull && window.pullbox.onPull(distance, reFreshDistance);
-				if (distance < reFreshDistance) {
+				if (distance >= 0 && distance < reFreshDistance) {
 					setDistance(distance);
-				} else {
+				} else if (distance >= reFreshDistance) {
 					setDistance(reFreshDistance);//达到 refresh 触发条件
 				}
 			}
@@ -97,14 +99,15 @@
 			if (!hasTouch) {
 				state = 'null';
 			}
-			setDistance(0);
+			setDistance(0, 400);
 		}
 
-		function setDistance(y) {
+		function setDistance(y, duration) {
+			duration = duration || 0
 			box.style['-webkit-transition-timing-function'] = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
 			box.style['transition-timing-function'] = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
-			box.style['-webkit-transition-duration'] = '0ms';
-			box.style['transition-duration'] = '0ms';
+			box.style['-webkit-transition-duration'] = duration + 'ms';
+			box.style['transition-duration'] = duration + 'ms';
 			box.style['-webkit-transform'] = 'translate(0px, ' + y + 'px) translateZ(0px)';
 			box.style['transform'] = 'translate(0px, ' + y + 'px) translateZ(0px)';
 		}

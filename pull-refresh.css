@@ -1,15 +1,5 @@
-/*自定义样式*/
-html, body {
-	margin: 0;
-	padding: 0;
-}
-
-.pull-content {
-	background-color: #fff;
-}
-
-.pull-refresh {
-	/*设置为下拉刷新最大距离 pullbox.refreshMaxDistance*/
+.pull-box {
+	/*与 pullbox.option.reFreshDistance 对应*/
 	margin-top: -60px;
 }
 
