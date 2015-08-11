@@ -1,41 +1,22 @@
 ;
 (function () {
 	window.pullbox = {
-		'onReFresh': function () {
-		},
-		'onPull': function () {
-		}
+		'onPull': null,
+		'onReFresh': null,//添加下拉刷新功能 仅需定义该函数
+		'onLoadMore': null//添加加载更多功能 仅需定义该函数
 	}
 	document.addEventListener("DOMContentLoaded", init, false);
 
-	function elem(selector) {
-		return document.querySelector(selector);
-	}
-
-	function css(obj, attr, value) {
-		switch (arguments.length) {
-			case 2:
-				if (typeof arguments[1] == "object") {
-					for (var i in attr) obj.style[i] = attr[i]
-				} else {
-					return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, null)[attr]
-				}
-				break;
-
-			case 3:
-				obj.style[attr] = value;
-				break;
-
-			default:
-				return "";
-		}
-	}
-
 	function init() {
 
+		if (!pullbox.onReFresh) {
+			return
+		}
+
+		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
-		var pullBox = elem(".pull-box");
-		var distance = 0, maxDistance = 60;
+		var box = document.querySelector(".pull-box");//必须有
+		var distance = 0, pulldownMaxDistance = 60;
 		var state = 'ready';// null(pc端)| ready | refresh
 		if (!hasTouch) {
 			state = 'null'//pc比触屏移动端多一个状态,需点击屏幕后才能转成ready成为可拖拽状态
@@ -45,25 +26,24 @@
 			{'START': 'touchstart', 'MOVE': 'touchmove', 'END': 'touchend'}
 		];
 		var EVENT = eventMap[hasTouch];
-		var posStart = {'x': 0, 'y': 0, 't': 0}, posMove = {'x': 0, 'y': 0, 't': 0}, posEnd = {'x': 0, 'y': 0, 't': 0};
+		var posStart = { 'y': 0, 't': 0}, posMove = { 'y': 0, 't': 0}, posEnd = {'y': 0, 't': 0};
+
+		function getScrollTop() {
+			return document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset || window.scrollY || 0;
+		}
 
 		function bindEvent(type, bindData, callback) {
-			pullBox.addEventListener(type, function (e) {
-
+			box.addEventListener(type, function (e) {
 				if (hasTouch) {
-					bindData.x = e.changedTouches[0].clientX;
 					bindData.y = e.changedTouches[0].clientY;
 				} else {
-					bindData.x = e.clientX;
 					bindData.y = e.clientY;
 				}
 				bindData.t = new Date().getTime();
 				callback();
-
-				if (type == EVENT.MOVE && window.pageYOffset == 0 && distance > 0) {
-					e.preventDefault();//还是利用用原生的浏览器滚动条。
+				if (type == EVENT.MOVE && getScrollTop() == 0 && distance > 0) {
+					e.preventDefault();//阻止微信浏览器下拽的网页的提示
 				}
-
 			});
 		}
 
@@ -74,34 +54,31 @@
 		}
 
 		function onMove() {
-			distance = posMove.y - posStart.y;//只用到y
-			if (state == 'ready' && window.pageYOffset == 0) {
-				window.pullbox.onPull(distance, maxDistance);
-				if (distance < maxDistance) {
+			distance = posMove.y - posStart.y;
+			if (state == 'ready' && getScrollTop() == 0) {
+				window.pullbox.onPull && window.pullbox.onPull(distance, pulldownMaxDistance);
+				if (distance < pulldownMaxDistance) {
 					setDistance(distance);
 				} else {
-					//达到 refresh 触发条件
-					setDistance(maxDistance);
+					setDistance(pulldownMaxDistance);//达到 refresh 触发条件
 				}
 			}
 		}
 
 		function onEnd() {
-
 			if (state == 'ready') {
-				if (distance >= maxDistance) {
+				if (distance >= pulldownMaxDistance && getScrollTop() == 0) {
 					state = 'refresh';
 					window.pullbox.onReFresh({
-						'finish': finish
+						'finish': onReFreshFinish
 					});
 				} else {
-					finish();
+					onReFreshFinish();
 				}
 			}
-
 		}
 
-		function finish() {
+		function onReFreshFinish() {
 			state = 'ready';
 			if (!hasTouch) {
 				state = 'null';
@@ -110,17 +87,35 @@
 		}
 
 		function setDistance(y) {
-			css(pullBox, 'transition-timing-function', 'cubic-bezier(0.1, 0.57, 0.1, 1)');
-			css(pullBox, '-webkit-transition-timing-function', 'cubic-bezier(0.1, 0.57, 0.1, 1)');
-			css(pullBox, 'transition-duration', '0ms');
-			css(pullBox, '-webkit-transition-duration', '0ms');
-			css(pullBox, 'transform', 'translate(0px, ' + y + 'px) translateZ(0px)');
-			css(pullBox, '-webkit-transform', 'translate(0px, ' + y + 'px) translateZ(0px)');
+			box.style['-webkit-transition-timing-function'] = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
+			box.style['transition-timing-function'] = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
+			box.style['-webkit-transition-duration'] = '0ms';
+			box.style['transition-duration'] = '0ms';
+			box.style['-webkit-transform'] = 'translate(0px, ' + y + 'px) translateZ(0px)';
+			box.style['transform'] = 'translate(0px, ' + y + 'px) translateZ(0px)';
 		}
 
 		bindEvent(EVENT.START, posStart, onStart);
 		bindEvent(EVENT.MOVE, posMove, onMove);
 		bindEvent(EVENT.END, posEnd, onEnd);
+
+		var loadmorelock = false;
+		var loadDistance = 100;
+
+		function loadMore() {
+			if (pullbox.onLoadMore && loadmorelock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - loadDistance)) {
+				loadmorelock = true;
+				pullbox.onLoadMore({
+					'finish': function () {
+						loadmorelock = false;
+						setTimeout(loadMore, 100);//内容过少自动加载更多
+					}
+				});
+			}
+		}
+
+		document.addEventListener("scroll", loadMore, false);
+		loadMore();
 	}
 
 })();
