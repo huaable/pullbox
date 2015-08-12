@@ -73,6 +73,7 @@ pullbox.option
 ```
 window.pullbox = {
 		'option': {
+			'boxSelector': '.pull-box',
 			'reFreshDistance': 60,
 			'loadMoreDistance': 100
 		},
