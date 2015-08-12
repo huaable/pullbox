@@ -1,16 +1,17 @@
 ;
 (function () {
-	/**
+	/*!
 	 * @file   下拉刷新+加载更多
 	 *
 	 * @author xiaohua
-	 * @email coolr@foxmail.com
+	 * @contact coolr@foxmail.com
 	 *
 	 * @LICENSE
 	 * http://www.apache.org/licenses/LICENSE-2.0
 	 */
 	window.pullbox = {
 		'option': {
+			'boxSelector': '.pull-box',
 			'reFreshDistance': 60,
 			'loadMoreDistance': 100
 		},
@@ -28,7 +29,7 @@
 
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
-		var box = document.querySelector(".pull-box");//必须有
+		var box = document.querySelector(pullbox.option.boxSelector);//必须有
 		box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
 		var distance = 0, reFreshDistance = pullbox.option.reFreshDistance;
 		var state = 'ready';// null(pc端)| ready | refresh
