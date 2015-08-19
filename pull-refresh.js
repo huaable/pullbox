@@ -23,9 +23,6 @@
 
 	function init() {
 
-		if (!pullbox.onReFresh) {
-			return
-		}
 
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
@@ -113,12 +110,14 @@
 			box.style['transform'] = 'translate(0px, ' + y + 'px) translateZ(0px)';
 		}
 
-		bindEvent(EVENT.START, posStart, onStart);
-		bindEvent(EVENT.MOVE, posMove, onMove);
-		bindEvent(EVENT.END, posEnd, onEnd);
+		if (pullbox.onReFresh) {
+			bindEvent(EVENT.START, posStart, onStart);
+			bindEvent(EVENT.MOVE, posMove, onMove);
+			bindEvent(EVENT.END, posEnd, onEnd);
+		}
 
 		function loadMore() {
-			if (pullbox.onLoadMore && loadMoreLock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - pullbox.option.loadMoreDistance)) {
+			if (loadMoreLock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - pullbox.option.loadMoreDistance)) {
 				loadMoreLock = true;
 				pullbox.onLoadMore({
 					'finish': function () {
@@ -129,8 +128,10 @@
 			}
 		}
 
-		document.addEventListener("scroll", loadMore, false);
-		loadMore();
+		if (pullbox.onLoadMore) {
+			document.addEventListener("scroll", loadMore, false);
+			loadMore();
+		}
 	}
 
 })();
