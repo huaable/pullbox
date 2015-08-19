@@ -30,7 +30,6 @@ add HTML
 ```
 add JavaScript
 ```
- var content = document.getElementById("content");
 
     //添加下拉刷新功能 仅需定义该函数
     pullbox.onReFresh = function (handle) {
