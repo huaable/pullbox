@@ -7,20 +7,6 @@ webapp 下拉刷新
 <img width="200" src="https://raw.githubusercontent.com/huaable/pull-refresh/master/Screenshot_2015-08-11-22-43-22.png"/>
 
 
-CSS
-
-```
-
-.pull-refresh,
-.pull-loadmore {
-	/* pullbox.option.reFreshDistance＝60; */
-	height: 60px;
-	background-image: url("loading.gif");
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-```
 
 HTML
 ```
@@ -36,13 +22,15 @@ HTML
 
 
 ```
-JavaScript
+###pull-refresh
 
+HTML
 ```
-
+<div class="pull-refresh"></div>
+```
+JavaScript
+```
  var content = document.getElementById("content");
-
-  pullbox.option.boxSelector = "#demo"//default = 'body'
 
     //添加下拉刷新功能 仅需定义该函数
     pullbox.onReFresh = function (handle) {
@@ -53,6 +41,20 @@ JavaScript
 
     }
 
+```
+
+### pull-loadmore
+
+HTML
+
+```
+    <div class="pull-loadmore"></div>
+
+```
+
+Javascript
+```
+
     //添加加载更多功能 仅需定义该函数
     pullbox.onLoadMore = function (handle) {
     
@@ -61,10 +63,9 @@ JavaScript
         }, 500);
 
     }
-
 ```
 
-pullbox.option
+### pullbox.option
 
 ```
 window.pullbox = {
