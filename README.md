@@ -69,7 +69,7 @@ add Javascript
 ```
 window.pullbox = {
 		'option': {
-			'boxSelector': '.pull-box',
+			'boxSelector': 'body', // selector like '#demo'  '.demo'
 			'reFreshDistance': 60,
 			'loadMoreDistance': 100
 		},
