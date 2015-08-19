@@ -28,7 +28,6 @@
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
 		var box = document.querySelector(pullbox.option.boxSelector);//必须有
-		box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
 		var distance = 0, reFreshDistance = pullbox.option.reFreshDistance;
 		var state = 'ready';// null(pc端)| ready | refresh
 		if (!hasTouch) {
@@ -112,6 +111,7 @@
 		}
 
 		if (pullbox.onReFresh) {
+			box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
 			bindEvent(EVENT.START, posStart, onStart);
 			bindEvent(EVENT.MOVE, posMove, onMove);
 			bindEvent(EVENT.END, posEnd, onEnd);
