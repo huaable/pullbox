@@ -9,9 +9,10 @@
 	 * @LICENSE
 	 * http://www.apache.org/licenses/LICENSE-2.0
 	 */
+
 	window.pullbox = {
 		'option': {
-			'boxSelector': '.pull-box',
+			'boxSelector': 'body',
 			'reFreshDistance': 60,
 			'loadMoreDistance': 100
 		},

@@ -24,22 +24,16 @@ CSS
 
 HTML
 ```
-<div class="pull-box"> <!-- .pull-box 类名容器必要-->
 
+<div id="demo">
     <!--以下内容均为非必要,可自定义-->
     <div class="pull-refresh"></div>
-    <div class="pull-content">
-        <ul id="content">
-            <li>内容文本</li>
-            <li>内容文本</li>
-            <li>内容文本</li>
-            <li>内容文本</li>
-            <li>内容文本</li>
-        </ul>
-    </div>
+    <ul id="content">
+        ...
+    </ul>
     <div class="pull-loadmore"></div>
-
 </div>
+
 
 ```
 JavaScript
@@ -47,6 +41,8 @@ JavaScript
 ```
 
  var content = document.getElementById("content");
+
+  pullbox.option.boxSelector = "#demo"//default = 'body'
 
     //添加下拉刷新功能 仅需定义该函数
     pullbox.onReFresh = function (handle) {

@@ -25,7 +25,7 @@
             margin: 0;
         }
 
-        .pull-content {
+        #content {
             padding: 20px;
             line-height: 32px;
             background-color: #fff;
@@ -47,25 +47,25 @@
 <body>
 <h1 id="top-bar"></h1>
 
-<div class="pull-box"><!-- .pull-box 类名容器必要 -->
-
+<div id="demo">
     <!--以下内容均为非必要,可自定义-->
     <div class="pull-refresh"></div>
-    <div class="pull-content">
-        <ul id="content">
-            <li>内容文本</li>
-            <li>内容文本</li>
-            <li>内容文本</li>
-        </ul>
-    </div>
+    <ul id="content">
+        <li>内容文本</li>
+        <li>内容文本</li>
+        <li>内容文本</li>
+    </ul>
     <div class="pull-loadmore"></div>
-
 </div>
+
 </body>
 </html>
 <script>
 
+
     var content = document.getElementById("content");
+
+    pullbox.option.boxSelector = "#demo"//default = 'body'
 
     //添加下拉刷新功能 仅需定义该函数
     pullbox.onReFresh = function (handle) {
