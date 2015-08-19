@@ -24,11 +24,11 @@ HTML
 ```
 ###pull-refresh
 
-HTML
+add HTML
 ```
 <div class="pull-refresh"></div>
 ```
-JavaScript
+add JavaScript
 ```
  var content = document.getElementById("content");
 
@@ -45,14 +45,14 @@ JavaScript
 
 ### pull-loadmore
 
-HTML
+add HTML
 
 ```
     <div class="pull-loadmore"></div>
 
 ```
 
-Javascript
+add Javascript
 ```
 
     //添加加载更多功能 仅需定义该函数
