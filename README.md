@@ -11,14 +11,14 @@ webapp 下拉刷新
 HTML
 ```
 
-<div id="demo">
+<body>
     <!--以下内容均为非必要,可自定义-->
     <div class="pull-refresh"></div>
     <ul id="content">
         ...
     </ul>
     <div class="pull-loadmore"></div>
-</div>
+</body>
 
 
 ```
