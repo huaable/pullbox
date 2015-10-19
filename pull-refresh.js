@@ -6,29 +6,31 @@
 	 * @author xiaohua
 	 * @contact coolr@foxmail.com
 	 *
-	 * @LICENSE
-	 * http://www.apache.org/licenses/LICENSE-2.0
+	 * @LICENSE MIT
+	 *
 	 */
 
-	window.pullbox = {
-		'option': {
-			'boxSelector': 'body',
-			'reFreshDistance': 60,
-			'loadMoreDistance': 100
-		},
-		'onPull': null,
-		'onReFresh': null,//添加下拉刷新功能 仅需定义该函数
-		'onLoadMore': null//添加加载更多功能 仅需定义该函数
+	window.pullbox = function (opt) {
+		for (var i in opt) {
+			options[i] = opt[i];
+		}
+		init();
 	}
-	document.addEventListener("DOMContentLoaded", init, false);
+
+	var options = {
+		boxSelector: 'body',
+		reFreshDistance: 60,
+		loadMoreDistance: 100,
+		onPull: null,
+		onReFresh: null,//添加下拉刷新功能 仅需定义该函数
+		onLoadMore: null//添加加载更多功能 仅需定义该函数
+	}
 
 	function init() {
-
-
 		var elembody = document.documentElement || document.body;
 		var hasTouch = "ontouchstart" in window ? 1 : 0;
-		var box = document.querySelector(pullbox.option.boxSelector);//必须有
-		var distance = 0, reFreshDistance = pullbox.option.reFreshDistance;
+		var box = document.querySelector(options.boxSelector);//必须有
+		var distance = 0, reFreshDistance = options.reFreshDistance;
 		var state = 'ready';// null(pc端)| ready | refresh
 		if (!hasTouch) {
 			state = 'null'//pc比触屏移动端多一个状态,需点击屏幕后才能转成ready成为可拖拽状态
@@ -70,7 +72,7 @@
 		function onMove() {
 			distance = posMove.y - posStart.y;
 			if (state == 'ready' && getScrollTop() == 0) {
-				window.pullbox.onPull && window.pullbox.onPull(distance, reFreshDistance);
+				options.onPull && options.onPull(distance, reFreshDistance);
 				if (distance >= 0 && distance < reFreshDistance) {
 					setDistance(distance);
 				} else if (distance >= reFreshDistance) {
@@ -83,7 +85,7 @@
 			if (state == 'ready') {
 				if (distance >= reFreshDistance && getScrollTop() == 0) {
 					state = 'refresh';
-					window.pullbox.onReFresh({
+					options.onReFresh({
 						'finish': onReFreshFinish
 					});
 				} else {
@@ -110,17 +112,17 @@
 			box.style['transform'] = 'translate(0px, ' + y + 'px) translateZ(0px)';
 		}
 
-		if (pullbox.onReFresh) {
-			box.style['margin-top'] = -pullbox.option.reFreshDistance + 'px';
+		if (options.onReFresh) {
+			box.style['margin-top'] = -options.reFreshDistance + 'px';
 			bindEvent(EVENT.START, posStart, onStart);
 			bindEvent(EVENT.MOVE, posMove, onMove);
 			bindEvent(EVENT.END, posEnd, onEnd);
 		}
 
 		function loadMore() {
-			if (loadMoreLock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - pullbox.option.loadMoreDistance)) {
+			if (loadMoreLock == false && (getScrollTop() + elembody.clientHeight > elembody.offsetHeight - options.loadMoreDistance)) {
 				loadMoreLock = true;
-				pullbox.onLoadMore({
+				options.onLoadMore({
 					'finish': function () {
 						loadMoreLock = false;
 						setTimeout(loadMore, 100);//内容过少自动加载更多
@@ -129,7 +131,7 @@
 			}
 		}
 
-		if (pullbox.onLoadMore) {
+		if (options.onLoadMore) {
 			document.addEventListener("scroll", loadMore, false);
 			loadMore();
 		}

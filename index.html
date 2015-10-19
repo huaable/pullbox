@@ -65,40 +65,32 @@
 
     var content = document.getElementById("content");
 
-    pullbox.option.boxSelector = "#demo"//default = 'body'
+    var option = {
+        boxSelector: "#demo",
+        onReFresh: function (handle) {
+            //添加下拉刷新功能 仅需定义该函数
+            setTimeout(function () {//ajax
+                for (var i = 0; i < 5; i++) {
+                    var li = document.createElement('li');
+                    li.innerHTML = '最新内容 -- ' + new Date().toLocaleString();
+                    content.insertBefore(li, content.firstChild);
+                }
+                handle.finish();
+            }, 500);
 
-    //添加下拉刷新功能 仅需定义该函数
-    pullbox.onReFresh = function (handle) {
-
-        console.log("refresh")
-        setTimeout(function () {//ajax
-
-            for (var i = 0; i < 5; i++) {
-                var li = document.createElement('li');
-                li.innerHTML = '最新内容 -- ' + new Date().toLocaleString();
-                content.insertBefore(li, content.firstChild);
-            }
-            handle.finish();
-
-        }, 500);
-
-    }
-
-    //添加加载更多功能 仅需定义该函数
-    pullbox.onLoadMore = function (handle) {
-
-        console.log("loadmore")
-        setTimeout(function () {//ajax
-
-            for (var i = 0; i < 5; i++) {
-                var li = document.createElement('li');
-                li.innerHTML = '加载内容 -- ' + new Date().toLocaleString();
-                content.appendChild(li, content.firstChild);
-            }
-            handle.finish();//如果没有更多内容了可以不执行改方法,这样阻止 pullbox.onLoadMore 再次被调用
-
-        }, 500);
-
-    }
+        },
+        onLoadMore: function (handle) {
+            //添加加载更多功能 仅需定义该函数
+            setTimeout(function () {//ajax
+                for (var i = 0; i < 5; i++) {
+                    var li = document.createElement('li');
+                    li.innerHTML = '加载内容 -- ' + new Date().toLocaleString();
+                    content.appendChild(li, content.firstChild);
+                }
+                handle.finish();//如果没有更多内容了可以不执行改方法,这样阻止 pullbox.onLoadMore 再次被调用
+            }, 500);
+        }
+    };
+    pullbox(option);
 
 </script>

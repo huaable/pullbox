@@ -32,13 +32,15 @@ add JavaScript
 ```
 
     //添加下拉刷新功能 仅需定义该函数
-    pullbox.onReFresh = function (handle) {
-    
-        setTimeout(function () {//ajax
-            handle.finish();
-        }, 500);
 
-    }
+      var opt = {
+        onReFresh:function (handle) {
+                setTimeout(function () {//ajax
+                    handle.finish();
+                }, 500);
+            }
+       };
+       pullbox(opt)
 
 ```
 
@@ -53,26 +55,24 @@ add HTML
 
 add Javascript
 ```
-
     //添加加载更多功能 仅需定义该函数
-    pullbox.onLoadMore = function (handle) {
-    
-        setTimeout(function () {//ajax
-            handle.finish();
-        }, 500);
-
-    }
+   var opt = {
+    onLoadMore:function (handle) {
+            setTimeout(function () {//ajax
+                handle.finish();
+            }, 500);
+        }
+   };
+    pullbox(opt)
 ```
 
-### pullbox.option
+### option
 
 ```
-window.pullbox = {
-		'option': {
-			'boxSelector': 'body', // selector like '#demo'  '.demo'
-			'reFreshDistance': 60,
-			'loadMoreDistance': 100
-		},
+     {
+        'boxSelector': 'body', // selector like '#demo'  '.demo'
+        'reFreshDistance': 60,
+        'loadMoreDistance': 100
 		'onPull': null,
 		'onReFresh': null,//添加下拉刷新功能 仅需定义该函数
 		'onLoadMore': null//添加加载更多功能 仅需定义该函数
